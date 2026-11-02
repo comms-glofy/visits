@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glofy Visits</title>
+<meta name="description" content="Glofy Visits: a client program to travel to Argentina, work in person with your Glofers and hold business sessions with Glofy leadership.">
+<meta property="og:title" content="Glofy Visits — Meet your team in Argentina">
+<meta property="og:description" content="A Glofy program for current and prospective clients: in-person collaboration, executive agenda and full coordination in Buenos Aires and Bariloche.">
+<meta property="og:image" content="https://live.staticflickr.com/65535/50993998212_c110f16fa3_b.jpg">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/comms-glofy/glofy-assets/refs/heads/main/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ===== Glofy brand tokens (Brand Onepager) ===== */
+  :root{
+    --ink:#212121; --ink-2:#383838; --lime:#ceff00; --mist:#e1e1e1; --paper:#ededed;
+    --ink-deep:#1a1a1a;
+    --card:linear-gradient(180deg,#2c2c2c 0%,#262626 100%);
+    --line:rgba(237,237,237,.10);
+    --line-2:rgba(237,237,237,.18);
+    --muted:rgba(237,237,237,.62);
+    --radius:22px; --radius-sm:14px;
+    --max:1200px; --gutter:clamp(16px,4vw,44px);
+    --ease:cubic-bezier(.22,.7,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);color:var(--paper);
+    font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  /* film grain */
+  body::before{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  ::selection{background:var(--lime);color:var(--ink)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+  section{padding:clamp(80px,11vw,140px) 0;position:relative}
+
+  /* ===== Type ===== */
+  h1,h2,h3{font-weight:700;line-height:1.08;letter-spacing:-.025em}
+  h2{font-size:clamp(30px,4.2vw,50px);margin:18px 0 20px;max-width:18ch}
+  h3{font-size:19px;letter-spacing:-.012em;line-height:1.25}
+  .lead{font-size:clamp(16.5px,1.5vw,19px);color:var(--muted);max-width:620px;font-weight:400}
+  .grad{background:linear-gradient(92deg,#ffffff 0%,#eaffa0 40%,var(--lime) 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .kicker{display:flex;align-items:center;gap:14px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .kicker b{font-weight:700;color:var(--lime);letter-spacing:.08em}
+  .kicker i{display:block;width:36px;height:1px;background:var(--line-2)}
+
+  /* ===== Buttons ===== */
+  .btn{display:inline-flex;align-items:center;gap:12px;justify-content:center;font:inherit;font-weight:600;font-size:14.5px;letter-spacing:.01em;
+    padding:14px 16px 14px 24px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;
+    transition:transform .35s var(--ease), background .3s ease, color .3s ease, box-shadow .35s var(--ease)}
+  .btn .arr{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;transition:transform .35s var(--ease)}
+  .btn .arr svg{width:15px;height:15px}
+  .btn:hover .arr{transform:translateX(3px)}
+  .btn-lime{background:var(--lime);color:var(--ink);box-shadow:0 10px 30px -12px rgba(206,255,0,.55), inset 0 1px 0 rgba(255,255,255,.5)}
+  .btn-lime .arr{background:var(--ink);color:var(--lime)}
+  .btn-lime:hover{box-shadow:0 16px 40px -12px rgba(206,255,0,.7), inset 0 1px 0 rgba(255,255,255,.5)}
+  .btn-ghost{background:rgba(237,237,237,.06);color:var(--paper);border:1px solid var(--line-2);padding:14px 24px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .btn-ghost:hover{background:rgba(237,237,237,.12)}
+
+  /* ===== Nav ===== */
+  .nav{position:fixed;inset:0 0 auto 0;z-index:60;transition:background .4s ease, border-color .4s ease;border-bottom:1px solid transparent}
+  .nav.scrolled{background:rgba(26,26,26,.78);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-color:var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .nav-logo img{height:28px;width:auto}
+  .nav-links{display:flex;gap:30px;font-size:13.5px;font-weight:500;color:var(--muted)}
+  .nav-links a{text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--paper)}
+  .nav-right{display:flex;align-items:center;gap:12px}
+  .lang{display:flex;background:rgba(237,237,237,.06);border:1px solid var(--line-2);border-radius:999px;padding:3px}
+  .lang button{font:inherit;font-size:11.5px;font-weight:700;letter-spacing:.1em;border:0;background:transparent;color:var(--muted);padding:7px 12px;border-radius:999px;cursor:pointer;transition:all .25s}
+  .lang button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+  .nav .btn{padding:10px 20px;font-size:13.5px}
+  @media (max-width:980px){.nav-links{display:none}}
+  @media (max-width:640px){.nav .btn{display:none}}
+
+  /* ===== Image frames + fallback ===== */
+  .frame{position:relative;overflow:hidden;background:
+      radial-gradient(120% 90% at 85% 10%, rgba(206,255,0,.16), transparent 55%),
+      linear-gradient(160deg,#363636 0%,#242424 60%,#1c1c1c 100%)}
+  .frame img{width:100%;height:100%;object-fit:cover}
+  .frame.is-placeholder img,.frame.img-failed img{display:none}
+  .frame .ph{position:absolute;inset:0;display:none;align-items:flex-end;padding:20px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(237,237,237,.4);
+    background-image:radial-gradient(rgba(237,237,237,.09) 1px,transparent 1.4px);background-size:14px 14px}
+  .frame.is-placeholder .ph,.frame.img-failed .ph{display:flex}
+
+  /* dot-matrix ornament (from Matriz 2026 cover) */
+  .dots{position:absolute;width:86px;height:50px;background-image:radial-gradient(rgba(237,237,237,.55) 1.3px,transparent 1.7px);background-size:12px 12px;opacity:.6;pointer-events:none}
+
+  /* ===== Hero ===== */
+  .hero{min-height:100svh;display:flex;align-items:flex-end;padding:150px 0 64px;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  .hero-bg img{filter:grayscale(1) contrast(1.08) brightness(.78);transform:scale(1.06);animation:slowzoom 18s var(--ease) forwards}
+  @keyframes slowzoom{to{transform:scale(1)}}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;background:
+      radial-gradient(70% 60% at 8% 100%, rgba(206,255,0,.22), transparent 60%),
+      linear-gradient(180deg,rgba(26,26,26,.7) 0%,rgba(26,26,26,.2) 32%,rgba(33,33,33,.82) 74%,var(--ink) 100%)}
+  .hero .dots{z-index:2;top:120px;right:var(--gutter)}
+  .hero .wrap{position:relative;z-index:2;width:100%}
+  .hero-grid{display:grid;grid-template-columns:1fr 340px;gap:48px;align-items:end}
+  .badge{display:inline-flex;align-items:center;gap:10px;padding:7px 16px 7px 7px;border-radius:999px;background:rgba(26,26,26,.55);border:1px solid var(--line-2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:12.5px;font-weight:600;letter-spacing:.02em}
+  .badge img{width:22px;height:22px;border-radius:6px}
+  .hero h1{font-size:clamp(44px,7.4vw,100px);margin:26px 0 24px;max-width:13ch;font-weight:700;letter-spacing:-.035em;line-height:1.02}
+  .hero .lead{color:rgba(237,237,237,.8);max-width:580px}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+  .spec{background:rgba(26,26,26,.55);border:1px solid var(--line-2);border-radius:var(--radius);padding:22px 24px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .spec-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .spec-row:last-child{border-bottom:0;padding-bottom:2px}
+  .spec-row:first-child{padding-top:2px}
+  .spec-row span{color:var(--muted)}
+  .spec-row b{font-weight:600;text-align:right}
+  .spec-row b em{font-style:normal;color:var(--lime)}
+  @media (max-width:980px){.hero-grid{grid-template-columns:1fr}.spec{max-width:440px}}
+
+  /* ===== Rationale ===== */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,88px);align-items:start}
+  .statement{margin-top:34px;padding:26px 28px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line);position:relative}
+  .statement::before{content:"";position:absolute;left:0;top:26px;bottom:26px;width:3px;border-radius:3px;background:var(--lime)}
+  .statement p{font-size:clamp(17px,1.6vw,20px);font-weight:500;line-height:1.5}
+  .pillars{display:grid;gap:12px}
+  .pillar{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;grid-template-columns:52px 1fr;gap:20px;align-items:start;transition:border-color .35s ease, transform .35s var(--ease)}
+  .pillar:hover{border-color:rgba(206,255,0,.35);transform:translateX(4px)}
+  .tile{width:52px;height:52px;border-radius:15px;background:var(--lime);color:var(--ink);display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.55), 0 10px 24px -12px rgba(206,255,0,.6)}
+  .tile svg{width:24px;height:24px}
+  .pillar p{color:var(--muted);font-size:15px;margin-top:6px}
+  @media (max-width:900px){.why-grid{grid-template-columns:1fr}}
+
+  /* ===== Two-way ===== */
+  .both{padding-top:0}
+  .both-card{position:relative;overflow:hidden;border-radius:calc(var(--radius) + 8px);background:var(--lime);color:var(--ink);
+    padding:clamp(36px,6vw,76px);display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .both-card::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.45),transparent 65%);pointer-events:none}
+  .both-card .kicker{color:rgba(33,33,33,.65)}
+  .both-card .kicker b{color:var(--ink)}
+  .both-card .kicker i{background:rgba(33,33,33,.25)}
+  .both-card p{font-size:17.5px;font-weight:500;max-width:540px;color:rgba(33,33,33,.85)}
+  .flow{position:relative;z-index:1;display:grid;gap:12px}
+  .flow-row{display:grid;grid-template-columns:1fr 46px 1fr;align-items:center;gap:10px}
+  .flow-pill{background:var(--ink);color:var(--paper);border-radius:14px;padding:16px 14px;text-align:center;font-size:13.5px;font-weight:600;line-height:1.3}
+  .flow-pill small{display:block;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin-bottom:4px}
+  .flow-pill.alt{background:rgba(33,33,33,.08);color:var(--ink);border:1px solid rgba(33,33,33,.2)}
+  .flow-pill.alt small{color:rgba(33,33,33,.6)}
+  .flow-arrow{display:grid;place-items:center}
+  .flow-arrow svg{width:28px;height:28px}
+  .flow-cap{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(33,33,33,.6);text-align:center;margin-top:4px}
+  @media (max-width:860px){.both-card{grid-template-columns:1fr}}
+
+  /* ===== Why Argentina (data strip) ===== */
+  .arg{padding-top:0}
+  .arg-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:40px}
+  .arg-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--card)}
+  .arg-item{padding:30px 26px 32px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
+  .arg-item:first-child{border-left:0}
+  .arg-item .lbl{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+  .arg-item .big{font-size:clamp(26px,2.6vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1.05}
+  .arg-item p{color:var(--muted);font-size:14.5px}
+  .tz{margin-top:auto;padding-top:14px;display:grid;gap:7px}
+  .tz-row{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.04em}
+  .tz-bar{position:relative;height:6px;border-radius:6px;background:rgba(237,237,237,.08)}
+  .tz-bar span{position:absolute;top:0;bottom:0;border-radius:6px;background:rgba(237,237,237,.35)}
+  .tz-bar.ar span{background:var(--lime)}
+  @media (max-width:1000px){.arg-grid{grid-template-columns:repeat(2,1fr)}.arg-item:nth-child(3){border-left:0}.arg-item:nth-child(n+3){border-top:1px solid var(--line)}}
+  @media (max-width:560px){.arg-grid{grid-template-columns:1fr}.arg-item{border-left:0!important}.arg-item+.arg-item{border-top:1px solid var(--line)}}
+
+  /* ===== Scope ===== */
+  .inc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:44px}
+  .inc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .inc{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px 28px;display:flex;flex-direction:column;gap:14px;overflow:hidden;transition:border-color .35s ease, transform .35s var(--ease)}
+  .inc::after{content:"";position:absolute;inset:auto -40% -60% auto;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(206,255,0,.12),transparent 70%);opacity:0;transition:opacity .4s}
+  .inc:hover{border-color:rgba(206,255,0,.35);transform:translateY(-4px)}
+  .inc:hover::after{opacity:1}
+  .inc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px}
+  .inc .idx{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1em}
+  .inc p{color:var(--muted);font-size:14.5px}
+  .inc-note{margin-top:22px;font-size:13.5px;color:var(--muted);display:flex;gap:10px;align-items:center}
+  .inc-note::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime)}
+  @media (max-width:1000px){.inc-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.inc-grid{grid-template-columns:1fr}.inc-top{margin-bottom:10px}}
+
+  /* ===== Destinations ===== */
+  .dest{padding-top:0}
+  .dest-intro{margin-bottom:44px}
+  .city{display:grid;grid-template-columns:1.3fr .7fr;gap:12px;margin-bottom:12px}
+  .city.rev{grid-template-columns:.7fr 1.3fr}
+  .city.rev .city-media{order:2}
+  .city-media{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:12px;min-height:540px}
+  .city-media .frame{border-radius:var(--radius)}
+  .city-media .frame:first-child{grid-row:1 / span 2}
+  .city-media img{filter:grayscale(.25) contrast(1.04);transition:transform 1.2s var(--ease), filter .6s ease}
+  .city-media .frame:hover img{transform:scale(1.04);filter:none}
+  .city-info{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(28px,3.2vw,40px);display:flex;flex-direction:column}
+  .city-info .region{display:inline-flex;align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:var(--lime);padding:6px 11px;border-radius:999px}
+  .city-info h3{font-size:clamp(32px,3.4vw,44px);margin:18px 0 14px;letter-spacing:-.03em;font-weight:700}
+  .city-info p{color:var(--muted);font-size:15px}
+  .uses{margin-top:auto;padding-top:26px;display:grid;gap:0}
+  .uses div{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:14px;font-weight:600}
+  .uses div::before{content:"";width:16px;height:16px;flex:none;border-radius:5px;background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23212121' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/11px no-repeat}
+  .more{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--radius);padding:22px 28px;background:rgba(237,237,237,.02)}
+  .more p{font-weight:500;color:var(--muted);font-size:15px}
+  .more .pins{display:flex;gap:8px;flex-wrap:wrap}
+  .more .pins span{font-size:13px;font-weight:600;padding:9px 16px;border-radius:999px;border:1px solid var(--line-2);display:inline-flex;align-items:center;gap:8px}
+  .more .pins span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime)}
+  .city-media.four{grid-template-columns:1.6fr 1fr 1fr}
+  .city-media.four .frame:first-child{grid-row:1 / span 2}
+  .city-media.four .frame:nth-child(4){grid-column:2 / span 2}
+  @media (max-width:560px){
+    .city-media.four{grid-template-columns:1fr 1fr;grid-template-rows:300px 170px 170px}
+    .city-media.four .frame:first-child{grid-row:auto;grid-column:1 / span 2}
+    .city-media.four .frame:nth-child(4){grid-column:1 / span 2}
+  }
+  @media (max-width:900px){.city,.city.rev{grid-template-columns:1fr}.city.rev .city-media{order:0}.city-media{min-height:400px}}
+  @media (max-width:560px){.city-media{grid-template-columns:1fr 1fr;grid-template-rows:250px 140px;min-height:0}.city-media .frame:first-child{grid-row:auto;grid-column:1 / span 2}}
+
+  /* ===== Process (steps) ===== */
+  .how{padding-top:0}
+  .steps{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
+  .steps::before{content:"";position:absolute;top:40px;left:40px;right:12%;height:2px;border-radius:2px;
+    background:linear-gradient(90deg,var(--lime) 0%,rgba(206,255,0,.35) 60%,rgba(206,255,0,0) 100%)}
+  .step{position:relative}
+  .step-num{position:relative;width:80px;height:80px;border-radius:24px;display:grid;place-items:center;
+    background:linear-gradient(145deg,#e4ff5c 0%,var(--lime) 45%,#b8e600 100%);color:var(--ink);
+    font-size:28px;font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums;
+    box-shadow:0 0 0 10px var(--ink), inset 0 1px 0 rgba(255,255,255,.65), inset 0 -2px 0 rgba(0,0,0,.08), 0 22px 44px -16px rgba(206,255,0,.55)}
+  .step-num::after{content:"";position:absolute;inset:6px;border-radius:18px;border:1px solid rgba(33,33,33,.14)}
+  .step-body{margin-top:28px;padding:24px 24px 26px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line)}
+  .step-body .tag{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+  .step-body h3{margin:10px 0 8px;font-size:20px}
+  .step-body p{color:var(--muted);font-size:15px}
+  @media (max-width:860px){
+    .steps{grid-template-columns:1fr;gap:18px}
+    .steps::before{top:40px;bottom:60px;left:39px;right:auto;width:2px;height:auto;background:linear-gradient(180deg,var(--lime),rgba(206,255,0,.1))}
+    .step{display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:start}
+    .step-body{margin-top:0}
+  }
+  @media (max-width:420px){
+    .step{grid-template-columns:64px 1fr;gap:16px}
+    .step-num{width:64px;height:64px;border-radius:19px;font-size:23px;box-shadow:0 0 0 8px var(--ink), inset 0 1px 0 rgba(255,255,255,.65), 0 16px 34px -14px rgba(206,255,0,.55)}
+    .step-num::after{inset:5px;border-radius:14px}
+    .steps::before{left:31px;top:32px}
+    .step-body{padding:20px}
+  }
+
+  /* ===== Contact ===== */
+  .contact{background:var(--paper);color:var(--ink);overflow:hidden}
+  .contact .dots{background-image:radial-gradient(rgba(33,33,33,.35) 1.3px,transparent 1.7px);top:60px;right:var(--gutter)}
+  .contact .kicker{color:rgba(33,33,33,.55)}
+  .contact .kicker b{color:var(--ink)}
+  .contact .kicker i{background:rgba(33,33,33,.2)}
+  .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,6vw,88px);align-items:start}
+  .contact .lead{color:#585858}
+  .contact-points{margin-top:32px;display:grid;gap:0;max-width:440px}
+  .contact-points div{display:flex;gap:14px;align-items:center;padding:15px 0;border-top:1px solid rgba(33,33,33,.12);font-weight:500;font-size:15px}
+  .contact-points div:last-child{border-bottom:1px solid rgba(33,33,33,.12)}
+  .contact-points .chk{flex:none;width:24px;height:24px;border-radius:8px;background:var(--ink);display:grid;place-items:center}
+  .contact-points .chk svg{width:13px;height:13px}
+  form{position:relative;background:#fff;border-radius:calc(var(--radius) + 4px);padding:clamp(24px,3.6vw,42px);
+    box-shadow:0 1px 0 rgba(33,33,33,.04), 0 40px 80px -40px rgba(33,33,33,.35);border:1px solid rgba(33,33,33,.06)}
+  .form-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid rgba(33,33,33,.08)}
+  .form-head b{font-size:15px;font-weight:700}
+  .form-head span{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--lime);padding:6px 10px;border-radius:999px}
+  .field{margin-bottom:18px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:560px){.row2{grid-template-columns:1fr;gap:0}}
+  label,.legend{display:block;font-size:12.5px;font-weight:600;margin-bottom:8px;color:#444}
+  input[type=text],input[type=email]{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#f5f5f5;border:1.5px solid #ececec;border-radius:var(--radius-sm);padding:14px 16px;outline:none;transition:border-color .25s, background .25s, box-shadow .25s}
+  input[type=text]:hover,input[type=email]:hover{border-color:#dcdcdc}
+  input[type=text]:focus,input[type=email]:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(206,255,0,.45)}
+  .choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .choice label{margin:0;position:relative;cursor:pointer}
+  .choice input{position:absolute;opacity:0;pointer-events:none}
+  .choice span{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:var(--radius-sm);background:#f5f5f5;border:1.5px solid #ececec;font-weight:600;font-size:15px;color:var(--ink);transition:all .25s}
+  .choice span::before{content:"";width:16px;height:16px;border-radius:50%;border:1.5px solid #bdbdbd;flex:none;transition:all .25s}
+  .choice input:checked + span{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .choice input:checked + span::before{border:5px solid var(--lime);background:var(--ink)}
+  .choice input:focus-visible + span{box-shadow:0 0 0 4px rgba(206,255,0,.45)}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  form .btn{width:100%;margin-top:10px;background:var(--ink);color:#fff;font-size:15px;padding:12px 12px 12px 26px;justify-content:space-between;box-shadow:0 14px 30px -16px rgba(33,33,33,.6)}
+  form .btn .arr{background:var(--lime);color:var(--ink)}
+  form .btn[disabled]{opacity:.6;cursor:wait}
+  .privacy{font-size:12px;color:#8a8a8a;margin-top:16px;text-align:center}
+  .form-msg{display:none;border-radius:var(--radius-sm);padding:13px 16px;font-size:14px;font-weight:600;margin-top:14px}
+  .form-msg.err{display:block;background:#fdeceb;color:#8a1c12}
+  .done{display:none;text-align:center;padding:36px 10px}
+  .done .check{width:72px;height:72px;border-radius:22px;background:var(--lime);display:grid;place-items:center;margin:0 auto 22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 20px 40px -18px rgba(150,190,0,.8)}
+  .done h3{font-size:26px;margin-bottom:8px}
+  .done p{color:#585858;max-width:360px;margin:0 auto}
+  form.sent .fields,form.sent .form-head{display:none}
+  form.sent .done{display:block}
+  @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
+
+  /* ===== Footer ===== */
+  footer{background:var(--ink-deep);padding:48px 0;border-top:1px solid var(--line)}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+  footer img{height:24px;width:auto}
+
+  /* ===== Reveal ===== */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease), transform 1s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+  @media (prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}
+    .hero-bg img{animation:none;transform:none}
+    .btn,.inc,.pillar,.city-media img{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="nav-logo" href="#top" aria-label="Glofy">
+      <img src="https://raw.githubusercontent.com/comms-glofy/glofy-assets/refs/heads/main/logo-rebrand-glofy.png" alt="Glofy">
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#rationale" data-i18n="nav.1">Rationale</a>
+      <a href="#scope" data-i18n="nav.2">Program</a>
+      <a href="#destinations" data-i18n="nav.3">Destinations</a>
+      <a href="#process" data-i18n="nav.4">Process</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+      <a class="btn btn-lime" href="#contact" data-i18n="nav.cta">Request a visit</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg frame">
+    <!-- Bariloche · Emprotur Bariloche (Flickr) -->
+    <img src="https://live.staticflickr.com/65535/50993998212_c110f16fa3_b.jpg" alt="" data-i18n-alt="alt.hero">
+    <div class="ph"></div>
+  </div>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="badge rv">
+          <img src="https://raw.githubusercontent.com/comms-glofy/glofy-assets/refs/heads/main/favicon.png" alt="">
+          <span data-i18n="hero.badge">Glofy Visits · Client program</span>
+        </div>
+        <h1 class="rv d1" data-i18n="hero.title">Meet your team. <span class="grad">On site, in Argentina.</span></h1>
+        <p class="lead rv d2" data-i18n="hero.lead">Glofy Visits is a program for current and prospective clients to travel to Argentina, work in person with their Glofers and hold business sessions with our leadership team. Glofy coordinates the entire visit, from accommodation to agenda.</p>
+        <div class="hero-ctas rv d3">
+          <a class="btn btn-lime" href="#contact">
+            <span data-i18n="hero.cta1">Request a visit</span>
+            <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+          <a class="btn btn-ghost" href="#destinations" data-i18n="hero.cta2">Explore destinations</a>
+        </div>
+      </div>
+      <aside class="spec rv d3" aria-label="Program summary">
+        <div class="spec-row"><span data-i18n="spec.k1">Program</span><b>Glofy Visits</b></div>
+        <div class="spec-row"><span data-i18n="spec.k2">Format</span><b data-i18n="spec.v2">In-person collaboration</b></div>
+        <div class="spec-row"><span data-i18n="spec.k3">Destinations</span><b>Buenos Aires · Bariloche</b></div>
+        <div class="spec-row"><span data-i18n="spec.k4">For</span><b data-i18n="spec.v4">Current &amp; prospective clients</b></div>
+        <div class="spec-row"><span data-i18n="spec.k5">Coordination</span><b data-i18n="spec.v5"><em>End to end</em> by Glofy</b></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RATIONALE ============ -->
+<section id="rationale">
+  <div class="wrap why-grid">
+    <div class="rv">
+      <div class="kicker"><b>01</b><i></i><span data-i18n="why.eyebrow">Rationale</span></div>
+      <h2 data-i18n="why.title">In-person contact strengthens distributed teams.</h2>
+      <p class="lead" data-i18n="why.lead">Our teams deliver across borders and time zones every day. In-person time adds what remote collaboration cannot fully replace: shared context, faster alignment and stronger working relationships between clients and their Glofers.</p>
+      <div class="statement"><p data-i18n="why.quote">We see human contact as an investment in performance. Better-aligned teams make better decisions.</p></div>
+    </div>
+    <div class="pillars">
+      <article class="pillar rv">
+        <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><path d="M15 14.2c2.6-.3 5 1.2 5.8 4.3"/></svg></div>
+        <div><h3 data-i18n="why.p1t">Team alignment</h3><p data-i18n="why.p1">Shared context reduces friction in communication, prioritization and delivery.</p></div>
+      </article>
+      <article class="pillar rv d1">
+        <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg></div>
+        <div><h3 data-i18n="why.p2t">Cultural integration</h3><p data-i18n="why.p2">First-hand knowledge of where and how your Glofers work supports long-term integration.</p></div>
+      </article>
+      <article class="pillar rv d2">
+        <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l5-5 4 4 7-8"/><path d="M14 8h6v6"/></svg></div>
+        <div><h3 data-i18n="why.p3t">Business impact</h3><p data-i18n="why.p3">Each visit opens space for strategic planning, workshops and scaling conversations with Glofy leadership.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TWO-WAY ============ -->
+<section class="both">
+  <div class="wrap">
+    <div class="both-card rv">
+      <div style="position:relative;z-index:1">
+        <div class="kicker"><b>02</b><i></i><span data-i18n="both.eyebrow">A two-way commitment</span></div>
+        <h2 data-i18n="both.title">Mobility works in both directions.</h2>
+        <p data-i18n="both.text">Glofers already have the opportunity to visit client offices and, in selected cases, to relocate. Glofy Visits extends the same model to our clients, inviting them to Argentina.</p>
+      </div>
+      <div class="flow" aria-hidden="true">
+        <div class="flow-row">
+          <div class="flow-pill"><small>Glofers</small>Argentina</div>
+          <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#212121" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg></div>
+          <div class="flow-pill alt"><small data-i18n="flow.c">Client office</small><span data-i18n="flow.c2">US · Europe</span></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-pill alt"><small data-i18n="flow.cl">Clients</small><span data-i18n="flow.c2">US · Europe</span></div>
+          <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#212121" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg></div>
+          <div class="flow-pill"><small>Glofy Visits</small>Argentina</div>
+        </div>
+        <div class="flow-cap" data-i18n="flow.cap">Same commitment, both directions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY ARGENTINA ============ -->
+<section class="arg">
+  <div class="wrap">
+    <div class="arg-head rv">
+      <div>
+        <div class="kicker"><b>03</b><i></i><span data-i18n="arg.eyebrow">Why Argentina</span></div>
+        <h2 data-i18n="arg.title">A strategic location for global teams.</h2>
+      </div>
+      <p class="lead" style="max-width:420px" data-i18n="arg.lead">The same advantages that make LATAM talent valuable for global teams are visible on the ground.</p>
+    </div>
+    <div class="arg-grid rv">
+      <div class="arg-item">
+        <span class="lbl" data-i18n="arg.1l">Time-zone alignment</span>
+        <div class="big" data-i18n="arg.1b">Real-time overlap</div>
+        <p data-i18n="arg.1">1–2 hours ahead of US Eastern Time; 4–5 hours behind Central Europe.</p>
+        <div class="tz" aria-hidden="true">
+          <div class="tz-row"><span>US ET</span><div class="tz-bar"><span style="left:33%;width:37%"></span></div></div>
+          <div class="tz-row"><span>ARG</span><div class="tz-bar ar"><span style="left:25%;width:37%"></span></div></div>
+          <div class="tz-row"><span>CET</span><div class="tz-bar"><span style="left:8%;width:37%"></span></div></div>
+        </div>
+      </div>
+      <div class="arg-item">
+        <span class="lbl" data-i18n="arg.2l">Cultural alignment</span>
+        <div class="big" data-i18n="arg.2b">Shared practices</div>
+        <p data-i18n="arg.2">Business culture and communication styles closely aligned with US and European teams.</p>
+      </div>
+      <div class="arg-item">
+        <span class="lbl" data-i18n="arg.3l">Senior talent</span>
+        <div class="big" data-i18n="arg.3b">Established hubs</div>
+        <p data-i18n="arg.3">Buenos Aires and Córdoba concentrate a deep pool of senior engineering and tech professionals.</p>
+      </div>
+      <div class="arg-item">
+        <span class="lbl" data-i18n="arg.4l">Operational efficiency</span>
+        <div class="big" data-i18n="arg.4b">Sustainable teams</div>
+        <p data-i18n="arg.4">Competitive cost structures that support stable, long-term team models.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAM SCOPE ============ -->
+<section id="scope" style="padding-top:0">
+  <div class="wrap">
+    <div class="inc-head rv">
+      <div>
+        <div class="kicker"><b>04</b><i></i><span data-i18n="inc.eyebrow">Program scope</span></div>
+        <h2 data-i18n="inc.title">What the program includes.</h2>
+      </div>
+      <p class="lead" style="max-width:420px" data-i18n="inc.lead">Each visit is coordinated end to end by Glofy and tailored to your business objectives.</p>
+    </div>
+    <div class="inc-grid">
+      <article class="inc rv">
+        <div class="inc-top"><div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5L12 4l9 6.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></svg></div><span class="idx">01</span></div>
+        <h3 data-i18n="inc.1t">Accommodation</h3><p data-i18n="inc.1">Fully furnished, premium stays in each destination, managed through our local hospitality partner.</p>
+      </article>
+      <article class="inc rv d1">
+        <div class="inc-top"><div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2.5 19c.5-3 2.7-4.8 5.5-4.8 1.6 0 3 .6 4 1.6 1-1 2.4-1.6 4-1.6 2.8 0 5 1.8 5.5 4.8"/></svg></div><span class="idx">02</span></div>
+        <h3 data-i18n="inc.2t">Team sessions</h3><p data-i18n="inc.2">Structured in-person time with your Glofers: working sessions, team meetings or a dedicated team day.</p>
+      </article>
+      <article class="inc rv d2">
+        <div class="inc-top"><div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7"/><path d="M3 12.5h18"/></svg></div><span class="idx">03</span></div>
+        <h3 data-i18n="inc.3t">Executive agenda</h3><p data-i18n="inc.3">Business meetings, workshops and planning sessions with Glofy leadership.</p>
+      </article>
+      <article class="inc rv d3">
+        <div class="inc-top"><div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14.5l2.5 2.5L16 13"/></svg></div><span class="idx">04</span></div>
+        <h3 data-i18n="inc.4t">Local coordination</h3><p data-i18n="inc.4">Logistics, scheduling and curated local recommendations throughout your stay.</p>
+      </article>
+    </div>
+    <p class="inc-note rv" data-i18n="inc.note">Program details are defined with each client based on the objectives of the visit.</p>
+  </div>
+</section>
+
+<!-- ============ DESTINATIONS ============ -->
+<section class="dest" id="destinations">
+  <div class="wrap">
+    <div class="dest-intro rv">
+      <div class="kicker"><b>05</b><i></i><span data-i18n="dest.eyebrow">Destinations</span></div>
+      <h2 data-i18n="dest.title">Two destinations, two formats.</h2>
+      <p class="lead" data-i18n="dest.lead">Buenos Aires for business and team integration. Bariloche for leadership offsites and strategic sessions.</p>
+    </div>
+
+    <!-- Buenos Aires — photos in img/ next to index.html (missing files show the brand placeholder) -->
+    <div class="city rv">
+      <div class="city-media four">
+        <div class="frame"><img src="img/buenos-aires-1.jpg" alt="" data-i18n-alt="alt.ba1" loading="lazy" style="object-position:50% 55%"><div class="ph">Buenos Aires</div></div>
+        <div class="frame"><img src="img/buenos-aires-2.jpg" alt="" data-i18n-alt="alt.ba2" loading="lazy" style="object-position:45% 45%"><div class="ph">Buenos Aires</div></div>
+        <div class="frame"><img src="img/buenos-aires-3.jpg" alt="" data-i18n-alt="alt.ba3" loading="lazy" style="object-position:60% 50%"><div class="ph">Buenos Aires</div></div>
+        <div class="frame"><img src="img/buenos-aires-4.jpg" alt="" data-i18n-alt="alt.ba4" loading="lazy" style="object-position:50% 55%"><div class="ph">Buenos Aires</div></div>
+      </div>
+      <div class="city-info">
+        <span class="region" data-i18n="ba.region">Business hub</span>
+        <h3>Buenos Aires</h3>
+        <p data-i18n="ba.text">Argentina's capital and main technology hub, home to a large share of our Glofers. The natural setting for team integration, client meetings and executive sessions.</p>
+        <div class="uses">
+          <div data-i18n="ba.t1">Team integration</div>
+          <div data-i18n="ba.t2">Client meetings</div>
+          <div data-i18n="ba.t3">Executive sessions</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bariloche — photos: Emprotur Bariloche (Flickr) -->
+    <div class="city rev rv">
+      <div class="city-media">
+        <div class="frame"><img src="https://live.staticflickr.com/65535/51430029998_328ca7cc1c_b.jpg" alt="" data-i18n-alt="alt.bar1" loading="lazy"><div class="ph">Bariloche</div></div>
+        <div class="frame"><img src="https://live.staticflickr.com/65535/51355325976_54b6c54203_b.jpg" alt="" data-i18n-alt="alt.bar2" loading="lazy"><div class="ph">Bariloche</div></div>
+        <div class="frame"><img src="https://live.staticflickr.com/65535/50925950496_431bf2aaf8_b.jpg" alt="" data-i18n-alt="alt.bar3" loading="lazy"><div class="ph">Bariloche</div></div>
+      </div>
+      <div class="city-info">
+        <span class="region" data-i18n="bar.region">Patagonia</span>
+        <h3>Bariloche</h3>
+        <p data-i18n="bar.text">A lake and mountain destination in northern Patagonia, suited to leadership offsites and planning sessions away from day-to-day operations. Available year-round.</p>
+        <div class="uses">
+          <div data-i18n="bar.t1">Leadership offsites</div>
+          <div data-i18n="bar.t2">Strategic planning</div>
+          <div data-i18n="bar.t3">Year-round availability</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="more rv">
+      <p data-i18n="more.a">Additional destinations available on request</p>
+      <div class="pins"><span>Córdoba</span><span>El Calafate</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="how" id="process">
+  <div class="wrap">
+    <div class="rv">
+      <div class="kicker"><b>06</b><i></i><span data-i18n="how.eyebrow">Process</span></div>
+      <h2 data-i18n="how.title">How it works.</h2>
+    </div>
+    <div class="steps">
+      <div class="step rv">
+        <div class="step-num">01</div>
+        <div class="step-body"><span class="tag" data-i18n="how.1s">Request</span><h3 data-i18n="how.1t">Submit your interest</h3><p data-i18n="how.1">Share your company details through the form below.</p></div>
+      </div>
+      <div class="step rv d1">
+        <div class="step-num">02</div>
+        <div class="step-body"><span class="tag" data-i18n="how.2s">Planning</span><h3 data-i18n="how.2t">Define the visit</h3><p data-i18n="how.2">We align objectives, dates, destinations and participants with you.</p></div>
+      </div>
+      <div class="step rv d2">
+        <div class="step-num">03</div>
+        <div class="step-body"><span class="tag" data-i18n="how.3s">Visit</span><h3 data-i18n="how.3t">Visit Argentina</h3><p data-i18n="how.3">Glofy coordinates logistics, agenda and accommodation throughout your stay.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="dots" aria-hidden="true"></div>
+  <div class="wrap contact-grid">
+    <div class="rv">
+      <div class="kicker"><b>07</b><i></i><span data-i18n="form.eyebrow">Contact</span></div>
+      <h2 data-i18n="form.title">Request a Glofy Visit.</h2>
+      <p class="lead" data-i18n="form.lead">Share your details and a member of our team will contact you to discuss the program.</p>
+      <div class="contact-points">
+        <div><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="#ceff00" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4 4 9-9.5"/></svg></span><span data-i18n="form.p1">Available to current and prospective clients</span></div>
+        <div><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="#ceff00" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4 4 9-9.5"/></svg></span><span data-i18n="form.p2">Initial conversation, no commitment</span></div>
+        <div><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="#ceff00" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4 4 9-9.5"/></svg></span><span data-i18n="form.p3">Visit tailored to your objectives</span></div>
+      </div>
+    </div>
+
+    <form id="visitForm" class="rv d1" novalidate>
+      <div class="form-head"><b data-i18n="form.head">Visit request</b><span>Glofy Visits</span></div>
+      <div class="fields">
+        <div class="row2">
+          <div class="field">
+            <label for="f-name" data-i18n="form.name">Full name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-company" data-i18n="form.company">Company</label>
+            <input id="f-company" name="company" type="text" autocomplete="organization" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-email" data-i18n="form.email">Business email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <span class="legend" id="client-legend" data-i18n="form.client">Is your company currently a Glofy client?</span>
+          <div class="choice" role="radiogroup" aria-labelledby="client-legend">
+            <label><input type="radio" name="is_client" value="Yes" required><span data-i18n="form.yes">Yes</span></label>
+            <label><input type="radio" name="is_client" value="No"><span data-i18n="form.no">No</span></label>
+          </div>
+        </div>
+        <!-- honeypot (anti-spam) -->
+        <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <button class="btn" type="submit" id="submitBtn"><span data-i18n="form.send">Submit request</span><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
+        <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+        <p class="privacy" data-i18n="form.privacy">Your information will be used solely to contact you about Glofy Visits.</p>
+      </div>
+      <div class="done">
+        <div class="check"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#212121" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h3 data-i18n="form.doneT">Request received</h3>
+        <p data-i18n="form.done">A member of the Glofy team will contact you shortly to discuss your visit.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="https://raw.githubusercontent.com/comms-glofy/glofy-assets/refs/heads/main/logo-rebrand-glofy.png" alt="Glofy">
+    <p><span data-i18n="foot.credit"></span> © <span id="yr">2026</span> Glofy</p>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   CONFIG — paste your Google Apps Script Web App URL here
+   (see README.md → "Conectar el formulario a Google Sheets")
+   ========================================================= */
+const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxK7HgcmcwPLQCBmfslWQbssEtirNphL0h_ie3wUv3j46HWO9IyH0H8nYBvHzPmBbX-/exec";
+
+/* ================= i18n ================= */
+const T = {
+  en: {
+    "nav.1":"Rationale","nav.2":"Program","nav.3":"Destinations","nav.4":"Process","nav.cta":"Request a visit",
+    "hero.badge":"Glofy Visits · Client program",
+    "hero.title":'Meet your team. <span class="grad">On site, in Argentina.</span>',
+    "hero.lead":"Glofy Visits is a program for current and prospective clients to travel to Argentina, work in person with their Glofers and hold business sessions with our leadership team. Glofy coordinates the entire visit, from accommodation to agenda.",
+    "hero.cta1":"Request a visit","hero.cta2":"Explore destinations",
+    "spec.k1":"Program","spec.k2":"Format","spec.v2":"In-person collaboration","spec.k3":"Destinations","spec.k4":"For","spec.v4":"Current &amp; prospective clients","spec.k5":"Coordination","spec.v5":"<em>End to end</em> by Glofy",
+    "why.eyebrow":"Rationale",
+    "why.title":"In-person contact strengthens distributed teams.",
+    "why.lead":"Our teams deliver across borders and time zones every day. In-person time adds what remote collaboration cannot fully replace: shared context, faster alignment and stronger working relationships between clients and their Glofers.",
+    "why.quote":"We see human contact as an investment in performance. Better-aligned teams make better decisions.",
+    "why.p1t":"Team alignment","why.p1":"Shared context reduces friction in communication, prioritization and delivery.",
+    "why.p2t":"Cultural integration","why.p2":"First-hand knowledge of where and how your Glofers work supports long-term integration.",
+    "why.p3t":"Business impact","why.p3":"Each visit opens space for strategic planning, workshops and scaling conversations with Glofy leadership.",
+    "both.eyebrow":"A two-way commitment","both.title":"Mobility works in both directions.",
+    "both.text":"Glofers already have the opportunity to visit client offices and, in selected cases, to relocate. Glofy Visits extends the same model to our clients, inviting them to Argentina.",
+    "flow.c":"Client office","flow.cl":"Clients","flow.c2":"US · Europe","flow.cap":"Same commitment, both directions",
+    "arg.eyebrow":"Why Argentina","arg.title":"A strategic location for global teams.",
+    "arg.lead":"The same advantages that make LATAM talent valuable for global teams are visible on the ground.",
+    "arg.1l":"Time-zone alignment","arg.1b":"Real-time overlap","arg.1":"1–2 hours ahead of US Eastern Time; 4–5 hours behind Central Europe.",
+    "arg.2l":"Cultural alignment","arg.2b":"Shared practices","arg.2":"Business culture and communication styles closely aligned with US and European teams.",
+    "arg.3l":"Senior talent","arg.3b":"Established hubs","arg.3":"Buenos Aires and Córdoba concentrate a deep pool of senior engineering and tech professionals.",
+    "arg.4l":"Operational efficiency","arg.4b":"Sustainable teams","arg.4":"Competitive cost structures that support stable, long-term team models.",
+    "inc.eyebrow":"Program scope","inc.title":"What the program includes.",
+    "inc.lead":"Each visit is coordinated end to end by Glofy and tailored to your business objectives.",
+    "inc.1t":"Accommodation","inc.1":"Fully furnished, premium stays in each destination, managed through our local hospitality partner.",
+    "inc.2t":"Team sessions","inc.2":"Structured in-person time with your Glofers: working sessions, team meetings or a dedicated team day.",
+    "inc.3t":"Executive agenda","inc.3":"Business meetings, workshops and planning sessions with Glofy leadership.",
+    "inc.4t":"Local coordination","inc.4":"Logistics, scheduling and curated local recommendations throughout your stay.",
+    "inc.note":"Program details are defined with each client based on the objectives of the visit.",
+    "dest.eyebrow":"Destinations","dest.title":"Two destinations, two formats.",
+    "dest.lead":"Buenos Aires for business and team integration. Bariloche for leadership offsites and strategic sessions.",
+    "ba.region":"Business hub","ba.text":"Argentina's capital and main technology hub, home to a large share of our Glofers. The natural setting for team integration, client meetings and executive sessions.",
+    "ba.t1":"Team integration","ba.t2":"Client meetings","ba.t3":"Executive sessions",
+    "bar.region":"Patagonia","bar.text":"A lake and mountain destination in northern Patagonia, suited to leadership offsites and planning sessions away from day-to-day operations. Available year-round.",
+    "bar.t1":"Leadership offsites","bar.t2":"Strategic planning","bar.t3":"Year-round availability",
+    "more.a":"Additional destinations available on request",
+    "how.eyebrow":"Process","how.title":"How it works.",
+    "how.1s":"Request","how.1t":"Submit your interest","how.1":"Share your company details through the form below.",
+    "how.2s":"Planning","how.2t":"Define the visit","how.2":"We align objectives, dates, destinations and participants with you.",
+    "how.3s":"Visit","how.3t":"Visit Argentina","how.3":"Glofy coordinates logistics, agenda and accommodation throughout your stay.",
+    "form.eyebrow":"Contact","form.title":"Request a Glofy Visit.",
+    "form.lead":"Share your details and a member of our team will contact you to discuss the program.",
+    "form.p1":"Available to current and prospective clients","form.p2":"Initial conversation, no commitment","form.p3":"Visit tailored to your objectives",
+    "form.head":"Visit request","form.name":"Full name","form.email":"Business email","form.company":"Company",
+    "form.client":"Is your company currently a Glofy client?","form.yes":"Yes","form.no":"No",
+    "form.send":"Submit request","form.sending":"Sending…",
+    "form.privacy":"Your information will be used solely to contact you about Glofy Visits.",
+    "form.invalid":"Please complete all fields with a valid business email.",
+    "form.error":"The request could not be sent. Please try again in a moment.",
+    "form.doneT":"Request received","form.done":"A member of the Glofy team will contact you shortly to discuss your visit.",
+    "foot.credit":"",
+    "alt.hero":"Mountains and lake in Bariloche, Patagonia","alt.bar1":"Bariloche landscape","alt.bar2":"Bariloche landscape","alt.bar3":"Bariloche landscape",
+    "alt.ba1":"Rosedal bridge in Palermo, Buenos Aires","alt.ba2":"Galileo Galilei Planetarium at night, Buenos Aires","alt.ba3":"Rooftop view of the Obelisk and 9 de Julio Avenue","alt.ba4":"Aerial night view of Puerto Madero and Puente de la Mujer"
+  },
+  es: {
+    "nav.1":"Fundamento","nav.2":"Programa","nav.3":"Destinos","nav.4":"Proceso","nav.cta":"Solicitar una visita",
+    "hero.badge":"Glofy Visits · Programa para clientes",
+    "hero.title":'Conozca a su equipo. <span class="grad">En persona, en Argentina.</span>',
+    "hero.lead":"Glofy Visits es un programa para clientes actuales y potenciales que invita a viajar a Argentina, trabajar en persona con sus Glofers y mantener sesiones de negocio con nuestro equipo de liderazgo. Glofy coordina la visita completa, del alojamiento a la agenda.",
+    "hero.cta1":"Solicitar una visita","hero.cta2":"Ver destinos",
+    "spec.k1":"Programa","spec.k2":"Formato","spec.v2":"Colaboración presencial","spec.k3":"Destinos","spec.k4":"Para","spec.v4":"Clientes actuales y potenciales","spec.k5":"Coordinación","spec.v5":"<em>Integral</em>, a cargo de Glofy",
+    "why.eyebrow":"Fundamento",
+    "why.title":"El contacto presencial fortalece a los equipos distribuidos.",
+    "why.lead":"Nuestros equipos trabajan todos los días entre países y husos horarios. El tiempo en persona suma lo que la colaboración remota no reemplaza por completo: contexto compartido, alineación más rápida y relaciones de trabajo más sólidas entre los clientes y sus Glofers.",
+    "why.quote":"Entendemos el contacto humano como una inversión en performance. Equipos mejor alineados toman mejores decisiones.",
+    "why.p1t":"Alineación del equipo","why.p1":"El contexto compartido reduce la fricción en la comunicación, la priorización y la entrega.",
+    "why.p2t":"Integración cultural","why.p2":"Conocer de primera mano dónde y cómo trabajan sus Glofers favorece una integración de largo plazo.",
+    "why.p3t":"Impacto en el negocio","why.p3":"Cada visita abre espacio para planificación estratégica, workshops y conversaciones de escalamiento con el liderazgo de Glofy.",
+    "both.eyebrow":"Un compromiso en ambas direcciones","both.title":"La movilidad funciona en los dos sentidos.",
+    "both.text":"Los Glofers ya tienen la oportunidad de visitar las oficinas de nuestros clientes y, en casos puntuales, de relocalizarse. Glofy Visits extiende el mismo modelo a nuestros clientes y los invita a Argentina.",
+    "flow.c":"Oficina del cliente","flow.cl":"Clientes","flow.c2":"EE. UU. · Europa","flow.cap":"El mismo compromiso, en ambas direcciones",
+    "arg.eyebrow":"Por qué Argentina","arg.title":"Una ubicación estratégica para equipos globales.",
+    "arg.lead":"Las mismas ventajas que hacen valioso al talento LATAM para equipos globales se ven en el terreno.",
+    "arg.1l":"Huso horario","arg.1b":"Superposición en tiempo real","arg.1":"1 a 2 horas por delante del horario del Este de EE. UU.; 4 a 5 horas por detrás de Europa Central.",
+    "arg.2l":"Afinidad cultural","arg.2b":"Prácticas compartidas","arg.2":"Cultura de negocios y estilos de comunicación muy alineados con equipos de EE. UU. y Europa.",
+    "arg.3l":"Talento senior","arg.3b":"Polos consolidados","arg.3":"Buenos Aires y Córdoba concentran una amplia oferta de profesionales senior de ingeniería y tecnología.",
+    "arg.4l":"Eficiencia operativa","arg.4b":"Equipos sostenibles","arg.4":"Estructuras de costos competitivas que sostienen modelos de equipo estables y de largo plazo.",
+    "inc.eyebrow":"Alcance del programa","inc.title":"Qué incluye el programa.",
+    "inc.lead":"Cada visita es coordinada de punta a punta por Glofy y se adapta a los objetivos de negocio de su empresa.",
+    "inc.1t":"Alojamiento","inc.1":"Estadías premium totalmente equipadas en cada destino, gestionadas a través de nuestro partner local de hospitality.",
+    "inc.2t":"Sesiones con el equipo","inc.2":"Tiempo presencial estructurado con sus Glofers: jornadas de trabajo, reuniones de equipo o un team day dedicado.",
+    "inc.3t":"Agenda ejecutiva","inc.3":"Reuniones de negocio, workshops y sesiones de planificación con el liderazgo de Glofy.",
+    "inc.4t":"Coordinación local","inc.4":"Logística, agenda y recomendaciones locales seleccionadas durante toda la estadía.",
+    "inc.note":"Los detalles del programa se definen con cada cliente según los objetivos de la visita.",
+    "dest.eyebrow":"Destinos","dest.title":"Dos destinos, dos formatos.",
+    "dest.lead":"Buenos Aires para negocios e integración de equipos. Bariloche para offsites de liderazgo y sesiones estratégicas.",
+    "ba.region":"Polo de negocios","ba.text":"Capital de Argentina y principal polo tecnológico del país, donde vive gran parte de nuestros Glofers. El escenario natural para integración de equipos, reuniones con clientes y sesiones ejecutivas.",
+    "ba.t1":"Integración de equipos","ba.t2":"Reuniones con clientes","ba.t3":"Sesiones ejecutivas",
+    "bar.region":"Patagonia","bar.text":"Un destino de lagos y montañas en el norte de la Patagonia, ideal para offsites de liderazgo y sesiones de planificación lejos de la operación diaria. Disponible todo el año.",
+    "bar.t1":"Offsites de liderazgo","bar.t2":"Planificación estratégica","bar.t3":"Disponible todo el año",
+    "more.a":"Destinos adicionales disponibles a pedido",
+    "how.eyebrow":"Proceso","how.title":"Cómo funciona.",
+    "how.1s":"Solicitud","how.1t":"Envíe su interés","how.1":"Comparta los datos de su empresa a través del formulario.",
+    "how.2s":"Planificación","how.2t":"Definimos la visita","how.2":"Alineamos con usted objetivos, fechas, destinos y participantes.",
+    "how.3s":"Visita","how.3t":"Visite Argentina","how.3":"Glofy coordina la logística, la agenda y el alojamiento durante toda la estadía.",
+    "form.eyebrow":"Contacto","form.title":"Solicite una Glofy Visit.",
+    "form.lead":"Comparta sus datos y un integrante de nuestro equipo se contactará para conversar sobre el programa.",
+    "form.p1":"Disponible para clientes actuales y potenciales","form.p2":"Conversación inicial, sin compromiso","form.p3":"Visita adaptada a sus objetivos",
+    "form.head":"Solicitud de visita","form.name":"Nombre y apellido","form.email":"Email corporativo","form.company":"Empresa",
+    "form.client":"¿Su empresa es actualmente cliente de Glofy?","form.yes":"Sí","form.no":"No",
+    "form.send":"Enviar solicitud","form.sending":"Enviando…",
+    "form.privacy":"Sus datos se utilizarán únicamente para contactarlo en relación con Glofy Visits.",
+    "form.invalid":"Complete todos los campos con un email corporativo válido.",
+    "form.error":"No pudimos enviar la solicitud. Intente nuevamente en unos minutos.",
+    "form.doneT":"Solicitud recibida","form.done":"Un integrante del equipo de Glofy se contactará a la brevedad para conversar sobre su visita.",
+    "foot.credit":"",
+    "alt.hero":"Montañas y lago en Bariloche, Patagonia","alt.bar1":"Paisaje de Bariloche","alt.bar2":"Paisaje de Bariloche","alt.bar3":"Paisaje de Bariloche",
+    "alt.ba1":"Puente del Rosedal en Palermo, Buenos Aires","alt.ba2":"Planetario Galileo Galilei de noche, Buenos Aires","alt.ba3":"Vista desde una terraza del Obelisco y la Avenida 9 de Julio","alt.ba4":"Vista aérea nocturna de Puerto Madero y el Puente de la Mujer"
+  }
+};
+let lang = "en";
+function setLang(l){
+  lang = T[l] ? l : "en";
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ const v=T[lang][el.dataset.i18n]; if(v!=null) el.innerHTML=v; });
+  document.querySelectorAll("[data-i18n-alt]").forEach(el=>{ const v=T[lang][el.dataset.i18nAlt]; if(v!=null) el.alt=v; });
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===lang));
+  try{ localStorage.setItem("glofy-visits-lang", lang); }catch(e){}
+}
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+(function(){
+  let saved=null; try{ saved=localStorage.getItem("glofy-visits-lang"); }catch(e){}
+  setLang(new URLSearchParams(location.search).get("lang") || saved || "en");
+})();
+
+/* ================= Images: graceful fallback ================= */
+document.querySelectorAll(".frame img").forEach(img=>{
+  const frame=img.closest(".frame");
+  if(!img.getAttribute("src")){ frame.classList.add("is-placeholder"); return; }
+  const fail=()=>frame.classList.add("img-failed");
+  if(img.complete && img.naturalWidth===0) fail();
+  img.addEventListener("error", fail);
+});
+
+/* ================= Nav ================= */
+const nav=document.getElementById("nav");
+const onScroll=()=>nav.classList.toggle("scrolled", window.scrollY>30);
+window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+/* ================= Reveal ================= */
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{threshold:.12, rootMargin:"0px 0px -40px 0px"});
+  document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+} else document.querySelectorAll(".rv").forEach(el=>el.classList.add("in"));
+
+document.getElementById("yr").textContent=new Date().getFullYear();
+
+/* ================= Form ================= */
+const form=document.getElementById("visitForm"), msg=document.getElementById("formMsg"), btn=document.getElementById("submitBtn");
+form.addEventListener("submit", async ev=>{
+  ev.preventDefault();
+  msg.className="form-msg"; msg.textContent="";
+  const fd=new FormData(form);
+  if(fd.get("website")) return;
+  const email=(fd.get("email")||"").trim();
+  const ok=["name","company"].every(k=>(fd.get(k)||"").trim()) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && fd.get("is_client");
+  if(!ok){ msg.className="form-msg err"; msg.textContent=T[lang]["form.invalid"]; return; }
+  const payload=new URLSearchParams({ name:fd.get("name").trim(), email, company:fd.get("company").trim(), is_client:fd.get("is_client"), lang, page:location.href, submitted_at:new Date().toISOString() });
+  const label=btn.querySelector("span");
+  btn.disabled=true; label.textContent=T[lang]["form.sending"];
+  try{
+    if(!FORM_ENDPOINT) throw new Error("FORM_ENDPOINT not configured");
+    await fetch(FORM_ENDPOINT,{method:"POST",mode:"no-cors",body:payload});
+    form.classList.add("sent");
+  }catch(err){
+    console.error("[Glofy Visits]", err);
+    msg.className="form-msg err"; msg.textContent=T[lang]["form.error"];
+  }finally{
+    btn.disabled=false; label.textContent=T[lang]["form.send"];
+  }
+});
+</script>
+</body>
+</html>
