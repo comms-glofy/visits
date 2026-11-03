@@ -7,7 +7,7 @@
 <meta name="description" content="Glofy Visits: a client program to travel to Argentina, work in person with your Glofers and hold business sessions with Glofy leadership.">
 <meta property="og:title" content="Glofy Visits — Meet your team in Argentina">
 <meta property="og:description" content="A Glofy program for current and prospective clients to meet their Glofers in person in Buenos Aires and Bariloche.">
-<meta property="og:image" content="https://live.staticflickr.com/65535/50993998212_c110f16fa3_b.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/comms-glofy/visits/refs/heads/main/img/bariloche-2.jpg">
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/comms-glofy/glofy-assets/refs/heads/main/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -172,6 +172,8 @@
   .gal .frame{height:clamp(240px,30vw,420px);border-radius:var(--radius)}
   .gal img{transition:transform 1.2s var(--ease)}
   .gal .frame:hover img{transform:scale(1.05)}
+  .gal.four{grid-template-columns:.85fr 1.6fr .85fr .85fr}
+  .gal.two{grid-template-columns:1fr 1fr}
   .more{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--radius);padding:22px 28px;background:rgba(237,237,237,.02)}
   .more p{font-weight:500;color:var(--muted);font-size:15px}
   .more .pins{display:flex;gap:8px;flex-wrap:wrap}
@@ -182,6 +184,9 @@
     .uses{flex-direction:row;flex-wrap:wrap}
     .gal{grid-template-columns:1fr 1fr}
     .gal .frame:nth-child(3){grid-column:1 / span 2}
+    .gal.four{grid-template-columns:1fr 1fr}
+    .gal.four .frame:nth-child(3){grid-column:auto}
+    .gal.four .frame:nth-child(2){grid-column:1 / span 2;order:-1}
   }
   @media (max-width:560px){
     .cine{height:auto;min-height:640px;border-radius:var(--radius)}
@@ -282,8 +287,8 @@
 <!-- ============ HERO ============ -->
 <section class="hero">
   <div class="hero-bg frame">
-    <!-- Bariloche · Emprotur Bariloche (Flickr) -->
-    <img src="https://live.staticflickr.com/65535/50993998212_c110f16fa3_b.jpg" alt="" data-i18n-alt="alt.hero">
+    <!-- Bariloche · Llao Llao -->
+    <img src="img/bariloche-2.jpg" alt="" data-i18n-alt="alt.hero" fetchpriority="high" style="object-position:50% 55%">
     <div class="ph"></div>
   </div>
   <div class="dots" aria-hidden="true"></div>
@@ -337,8 +342,8 @@
 <!-- ============ PHOTO MARQUEE ============ -->
 <section class="marquee" aria-label="Buenos Aires &amp; Bariloche">
   <div class="marquee-track">
-    <div class="frame p"><img src="img/buenos-aires-1.jpg" alt="" data-i18n-alt="alt.ba1" style="object-position:50% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="https://live.staticflickr.com/65535/51268246298_4f780fbb58_b.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/buenos-aires-4.jpg" alt="" data-i18n-alt="alt.ba4" style="object-position:50% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="https://live.staticflickr.com/65535/51161554308_9b478e60e1_b.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame p"><img src="img/buenos-aires-2.jpg" alt="" data-i18n-alt="alt.ba2" style="object-position:45% 45%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="https://live.staticflickr.com/65535/50925950496_431bf2aaf8_b.jpg" alt="" data-i18n-alt="alt.bar3" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/buenos-aires-3.jpg" alt="" data-i18n-alt="alt.ba3" style="object-position:60% 50%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="https://live.staticflickr.com/65535/51355325976_54b6c54203_b.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div>
-    <div style="display:contents" aria-hidden="true"><div class="frame p"><img src="img/buenos-aires-1.jpg" alt="" data-i18n-alt="alt.ba1" style="object-position:50% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="https://live.staticflickr.com/65535/51268246298_4f780fbb58_b.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/buenos-aires-4.jpg" alt="" data-i18n-alt="alt.ba4" style="object-position:50% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="https://live.staticflickr.com/65535/51161554308_9b478e60e1_b.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame p"><img src="img/buenos-aires-2.jpg" alt="" data-i18n-alt="alt.ba2" style="object-position:45% 45%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="https://live.staticflickr.com/65535/50925950496_431bf2aaf8_b.jpg" alt="" data-i18n-alt="alt.bar3" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/buenos-aires-3.jpg" alt="" data-i18n-alt="alt.ba3" style="object-position:60% 50%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="https://live.staticflickr.com/65535/51355325976_54b6c54203_b.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div></div>
+    <div class="frame p"><img src="img/buenos-aires-1.jpg" alt="" data-i18n-alt="alt.ba1" style="object-position:50% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="img/bariloche-1.jpg" alt="" data-i18n-alt="alt.bar1" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/buenos-aires-4.jpg" alt="" data-i18n-alt="alt.ba4" style="object-position:50% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="img/bariloche-4.jpg" alt="" data-i18n-alt="alt.bar3" style="object-position:50% 60%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame p"><img src="img/bsas-3.jpg" alt="" data-i18n-alt="alt.ba6" style="object-position:50% 40%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="img/bariloche-3.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:60% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/bsas-2.jpg" alt="" data-i18n-alt="alt.ba5" style="object-position:40% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame p"><img src="img/buenos-aires-2.jpg" alt="" data-i18n-alt="alt.ba2" style="object-position:45% 45%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="img/bariloche-2.jpg" alt="" data-i18n-alt="alt.hero" style="object-position:50% 60%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/buenos-aires-3.jpg" alt="" data-i18n-alt="alt.ba3" style="object-position:60% 50%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div>
+    <div style="display:contents" aria-hidden="true"><div class="frame p"><img src="img/buenos-aires-1.jpg" alt="" data-i18n-alt="alt.ba1" style="object-position:50% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="img/bariloche-1.jpg" alt="" data-i18n-alt="alt.bar1" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/buenos-aires-4.jpg" alt="" data-i18n-alt="alt.ba4" style="object-position:50% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="img/bariloche-4.jpg" alt="" data-i18n-alt="alt.bar3" style="object-position:50% 60%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame p"><img src="img/bsas-3.jpg" alt="" data-i18n-alt="alt.ba6" style="object-position:50% 40%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="img/bariloche-3.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:60% 50%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/bsas-2.jpg" alt="" data-i18n-alt="alt.ba5" style="object-position:40% 55%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame p"><img src="img/buenos-aires-2.jpg" alt="" data-i18n-alt="alt.ba2" style="object-position:45% 45%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div><div class="frame l"><img src="img/bariloche-2.jpg" alt="" data-i18n-alt="alt.hero" style="object-position:50% 60%" loading="lazy"><div class="ph">Bariloche</div><span class="cap">Bariloche</span></div><div class="frame l"><img src="img/buenos-aires-3.jpg" alt="" data-i18n-alt="alt.ba3" style="object-position:60% 50%" loading="lazy"><div class="ph">Buenos Aires</div><span class="cap">Buenos Aires</span></div></div>
   </div>
 </section>
 
@@ -368,17 +373,18 @@
           </div>
         </div>
       </div>
-      <div class="gal">
+      <div class="gal four">
+        <div class="frame g"><img src="img/bsas-3.jpg" alt="" data-i18n-alt="alt.ba6" style="object-position:50% 40%" loading="lazy"><div class="ph">Buenos Aires</div></div>
+        <div class="frame g"><img src="img/bsas-2.jpg" alt="" data-i18n-alt="alt.ba5" style="object-position:40% 55%" loading="lazy"><div class="ph">Buenos Aires</div></div>
         <div class="frame g"><img src="img/buenos-aires-1.jpg" alt="" data-i18n-alt="alt.ba1" style="object-position:50% 60%" loading="lazy"><div class="ph">Buenos Aires</div></div>
         <div class="frame g"><img src="img/buenos-aires-2.jpg" alt="" data-i18n-alt="alt.ba2" style="object-position:45% 45%" loading="lazy"><div class="ph">Buenos Aires</div></div>
-        <div class="frame g"><img src="img/buenos-aires-3.jpg" alt="" data-i18n-alt="alt.ba3" style="object-position:62% 50%" loading="lazy"><div class="ph">Buenos Aires</div></div>
       </div>
     </div>
 
-    <!-- Bariloche — photos: Emprotur Bariloche (Flickr) -->
+    <!-- Bariloche — photos in img/ -->
     <div class="city rv">
       <div class="cine frame">
-        <img src="https://live.staticflickr.com/65535/51430029998_328ca7cc1c_b.jpg" alt="" data-i18n-alt="alt.bar1" loading="lazy"><div class="ph">Bariloche</div>
+        <img src="img/bariloche-1.jpg" alt="" data-i18n-alt="alt.bar1" loading="lazy" style="object-position:50% 45%"><div class="ph">Bariloche</div>
         <div class="cine-cap">
           <div>
             <span class="region" data-i18n="bar.region">Patagonia</span>
@@ -392,10 +398,9 @@
           </div>
         </div>
       </div>
-      <div class="gal">
-        <div class="frame g"><img src="https://live.staticflickr.com/65535/51355325976_54b6c54203_b.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div></div>
-        <div class="frame g"><img src="https://live.staticflickr.com/65535/50925950496_431bf2aaf8_b.jpg" alt="" data-i18n-alt="alt.bar3" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div></div>
-        <div class="frame g"><img src="https://live.staticflickr.com/65535/51311616613_e1a29c2bf4_b.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:50% 50%" loading="lazy"><div class="ph">Bariloche</div></div>
+      <div class="gal two">
+        <div class="frame g"><img src="img/bariloche-3.jpg" alt="" data-i18n-alt="alt.bar2" style="object-position:60% 50%" loading="lazy"><div class="ph">Bariloche</div></div>
+        <div class="frame g"><img src="img/bariloche-4.jpg" alt="" data-i18n-alt="alt.bar3" style="object-position:50% 60%" loading="lazy"><div class="ph">Bariloche</div></div>
       </div>
     </div>
 
@@ -561,8 +566,8 @@ const T = {
     "form.error":"The request could not be sent. Please try again in a moment.",
     "form.doneT":"Request received","form.done":"A member of the Glofy team will contact you shortly to discuss your visit.",
     "foot.credit":"",
-    "alt.hero":"Mountains and lake in Bariloche, Patagonia","alt.bar1":"Bariloche landscape","alt.bar2":"Bariloche landscape","alt.bar3":"Bariloche landscape",
-    "alt.ba1":"Rosedal bridge in Palermo, Buenos Aires","alt.ba2":"Galileo Galilei Planetarium at night, Buenos Aires","alt.ba3":"Rooftop view of the Obelisk and 9 de Julio Avenue","alt.ba4":"Aerial night view of Puerto Madero and Puente de la Mujer"
+    "alt.hero":"Llao Llao hotel and the Andes in Bariloche, Patagonia","alt.bar1":"Snow-covered mountain overlooking Nahuel Huapi lake, Bariloche","alt.bar2":"Business breakfast in a mountain cabin with lake views, Bariloche","alt.bar3":"Snow ATV excursion through the forest, Bariloche",
+    "alt.ba5":"Floralis Genérica sculpture, Buenos Aires","alt.ba6":"Business rooftop overlooking the Obelisk, Buenos Aires","alt.ba1":"Rosedal bridge in Palermo, Buenos Aires","alt.ba2":"Galileo Galilei Planetarium at night, Buenos Aires","alt.ba3":"Rooftop view of the Obelisk and 9 de Julio Avenue","alt.ba4":"Aerial night view of Puerto Madero and Puente de la Mujer"
   },
   es: {
     "nav.1":"Fundamento","nav.2":"Programa","nav.3":"Destinos","nav.4":"Proceso","nav.cta":"Solicitar una visita",
@@ -615,8 +620,8 @@ const T = {
     "form.error":"No pudimos enviar la solicitud. Intente nuevamente en unos minutos.",
     "form.doneT":"Solicitud recibida","form.done":"Un integrante del equipo de Glofy se contactará a la brevedad para conversar sobre su visita.",
     "foot.credit":"",
-    "alt.hero":"Montañas y lago en Bariloche, Patagonia","alt.bar1":"Paisaje de Bariloche","alt.bar2":"Paisaje de Bariloche","alt.bar3":"Paisaje de Bariloche",
-    "alt.ba1":"Puente del Rosedal en Palermo, Buenos Aires","alt.ba2":"Planetario Galileo Galilei de noche, Buenos Aires","alt.ba3":"Vista desde una terraza del Obelisco y la Avenida 9 de Julio","alt.ba4":"Vista aérea nocturna de Puerto Madero y el Puente de la Mujer"
+    "alt.hero":"Hotel Llao Llao y la cordillera en Bariloche, Patagonia","alt.bar1":"Montaña nevada con vista al lago Nahuel Huapi, Bariloche","alt.bar2":"Desayuno de negocios en una cabaña de montaña con vista al lago, Bariloche","alt.bar3":"Excursión en cuatriciclos por el bosque nevado, Bariloche",
+    "alt.ba5":"Escultura Floralis Genérica, Buenos Aires","alt.ba6":"Terraza de negocios con vista al Obelisco, Buenos Aires","alt.ba1":"Puente del Rosedal en Palermo, Buenos Aires","alt.ba2":"Planetario Galileo Galilei de noche, Buenos Aires","alt.ba3":"Vista desde una terraza del Obelisco y la Avenida 9 de Julio","alt.ba4":"Vista aérea nocturna de Puerto Madero y el Puente de la Mujer"
   }
 };
 let lang = "en";
